@@ -18,24 +18,52 @@ class _loginState extends State<login> {
   TextEditingController email = TextEditingController();
   TextEditingController pass = TextEditingController();
 
-  Future sign_in() async {
-    String url = "http://172.16.3.166/cpepms/login.php";
-    final response = await http.post(Uri.parse(url), body: {
-      'email': email.text,
-      'password': pass.text,
-    });
-    @override
-    var data = json.decode(response.body);
-    print(data);
-    if (data == "Error") {
-      Navigator.pushNamed(context, 'login');
-    } else {
-      await User.setsignin(true);
-      if (data == "Teacher Success") {
-        Navigator.pushNamed(context, 'teacherhome');
-      } else {
-        Navigator.pushNamed(context, 'studenthome');
+  Future<void> sign_in() async {
+    String url = "http://172.16.3.169/cpepms/login.php";
+
+    try {
+      final response = await http.post(
+        Uri.parse(url),
+        headers: {
+          "Content-Type": "application/json"
+        }, // เพิ่ม header เพื่อระบุว่าคุณกำลังส่ง JSON
+        body: jsonEncode({
+          'username': email.text,
+          'password': pass.text,
+        }), // แปลงข้อมูลเป็น JSON
+      );
+
+      if (response.statusCode == 200) {
+        var data = json.decode(response.body);
+        print(data);
+
+        if (data.containsKey("message") && data.containsKey("student_id")) {
+          // สำเร็จ: เข้าสู่ระบบนักเรียน
+          await User.setsignin(true);
+          Navigator.pushNamed(context, 'studenthome');
+        } else if (data.containsKey("message") &&
+            data.containsKey("teacher_id")) {
+          // สำเร็จ: เข้าสู่ระบบครู
+          await User.setsignin(true);
+          Navigator.pushNamed(context, 'teacherhome');
+        } else {
+          // ไม่สำเร็จ: แสดงข้อความผิดพลาดหรือดำเนินการอื่นๆ ตามที่คุณต้องการ
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text("เข้าสู่ระบบไม่สำเร็จ"),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
       }
+    } catch (e) {
+      print("Error: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("เกิดข้อผิดพลาดระหว่างเข้าสู่ระบบ"),
+          backgroundColor: Colors.red,
+        ),
+      );
     }
   }
 
@@ -126,15 +154,6 @@ class _loginState extends State<login> {
                       ),
                     ),
                   ),
-                  // TextButton(
-                  //   style: TextButton.styleFrom(
-                  //     textStyle: const TextStyle(fontSize: 15),
-                  //   ),
-                  //   onPressed: () {
-                  //     Navigator.pushNamed(context, 'register');
-                  //   },
-                  //   child: const Text("Didn't have any Account? Sign Up now"),
-                  // ),
                 ],
               ),
             ],

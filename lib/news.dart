@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 
 class ApiService {
   final String baseUrl =
-      "http://172.16.3.166/cpepms/news.php"; // ใส่ URL ของไฟล์ PHP ที่เชื่อมต่อกับ MySQL
+      "http://172.16.3.169/cpepms/news.php"; // ใส่ URL ของไฟล์ PHP ที่เชื่อมต่อกับ MySQL
 
   Future<List<dynamic>> getNewsData() async {
     try {
@@ -69,6 +69,7 @@ class _NewsState extends State<News> {
                 Text(newsList[index]['news_date']
                     .toString()
                     .substring(11, 19)), // แสดงเวลา (15:22:31)
+                Text('${newsList[index]['year']} ${newsList[index]['term']}'),
               ],
             ),
           );

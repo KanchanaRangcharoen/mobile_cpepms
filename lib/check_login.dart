@@ -10,7 +10,8 @@ class check_login extends StatefulWidget {
 
 class _check_loginState extends State<check_login> {
   Future checklogin() async {
-    bool? signin = await User.getsignin();
+    bool? signin =
+        await User.getsignin(); // ส่งคำขอ API เพื่อตรวจสอบการเข้าสู่ระบบ
     if (signin == false) {
       Navigator.pushNamed(context, 'login');
     } else {

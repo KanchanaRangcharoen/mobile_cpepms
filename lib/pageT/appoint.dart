@@ -2,25 +2,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-class ApiService {
-  final String baseUrl =
-      "http://192.168.1.9/cpepms/appoint.php"; // ใส่ URL ของไฟล์ PHP ที่เชื่อมต่อกับ MySQL
-
-  Future<List<dynamic>> getappointData() async {
-    try {
-      final response = await http.get(Uri.parse("$baseUrl"));
-      if (response.statusCode == 200) {
-        List<dynamic> data = json.decode(utf8.decode(response.bodyBytes));
-        return data;
-      } else {
-        throw Exception("Failed to load data");
-      }
-    } catch (e) {
-      throw Exception("Error: $e");
-    }
-  }
-}
-
 class Appoint extends StatefulWidget {
   @override
   State<Appoint> createState() => _AppointState();
@@ -28,6 +9,7 @@ class Appoint extends StatefulWidget {
 
 class _AppointState extends State<Appoint> {
   List<dynamic> appoint = [];
+
   @override
   void initState() {
     super.initState();
@@ -35,14 +17,18 @@ class _AppointState extends State<Appoint> {
   }
 
   Future<void> fetchappointData() async {
-    ApiService apiService = ApiService();
-    try {
-      List<dynamic> data = await apiService.getappointData();
+    final response = await http.get(
+      Uri.parse(
+          "http://172.16.3.169/cpepms/appoint.php"), // ให้แก้ URL ตามที่คุณใช้งาน
+    );
+
+    if (response.statusCode == 200) {
+      final List<dynamic> data = json.decode(response.body);
       setState(() {
-        appoint = data;
+        appoint = data.cast<Map<String, dynamic>>();
       });
-    } catch (e) {
-      print(e);
+    } else {
+      throw Exception('Failed to load data');
     }
   }
 
@@ -56,11 +42,11 @@ class _AppointState extends State<Appoint> {
       body: ListView.builder(
         itemCount: appoint.length,
         itemBuilder: (context, index) {
+          final appointment = appoint[index];
           return ListTile(
-            title: Text(
-                '${appoint[index]['appoint_id']}  ${appoint[index]['title']}'),
-            subtitle: Text(appoint[index]['description']),
-            trailing: Text(appoint[index]['group_id'].toString()),
+            title: Text(appointment['title'] ?? ''),
+            subtitle: Text(appointment['description'] ?? ''),
+            trailing: Text(appointment['appoint_date'] ?? ''),
           );
         },
       ),
