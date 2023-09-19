@@ -8,17 +8,13 @@ class Assessmente extends StatefulWidget {
 
 class _AssessmenteState extends State<Assessmente> {
   Future logout() async {
-    await User.setsignin(false);
+    await User.setSignIn(false);
     Navigator.pushNamed(context, 'login');
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Assessmente'),
-        backgroundColor: Colors.black,
-      ),
       body: const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

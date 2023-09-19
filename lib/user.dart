@@ -1,13 +1,15 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class User {
-  static Future<bool?> getsignin() async {
+  static Future<bool?> getSignIn() async {
+    //อ่านข้อมูลการเข้าสู่ระบบของผู้ใช้
     SharedPreferences pref = await SharedPreferences.getInstance();
-    return pref.getBool("Sing-in");
+    return pref.getBool("Sign-in");
   }
 
-  static Future setsignin(bool signin) async {
+  static Future setSignIn(bool signIn) async {
+    //บันทึกข้อมูลการเข้าสู่ระบบของผู้ใช้
     SharedPreferences pref = await SharedPreferences.getInstance();
-    return pref.setBool("Sing-in", signin);
+    await pref.setBool("Sign-in", signIn);
   }
 }

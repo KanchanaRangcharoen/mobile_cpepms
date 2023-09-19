@@ -1,20 +1,21 @@
-// ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
 import 'package:flutter_login/page/menu.dart';
 import 'package:flutter_login/user.dart';
-import 'package:flutter_login/pageT/assessment.dart';
-import 'package:flutter_login/pageT/project.dart';
-import 'package:flutter_login/pageT/homeT.dart';
+import 'package:flutter_login/page/Assessmentresults.dart';
+import 'package:flutter_login/page/home.dart';
+import 'package:flutter_login/page/status.dart';
 import 'package:flutter_login/timeTest.dart';
 
-class teacherhome extends StatefulWidget {
-  const teacherhome({Key? key}) : super(key: key);
+class StudentHome extends StatefulWidget {
+  final String studentId;
+
+  StudentHome({required this.studentId});
 
   @override
-  State<teacherhome> createState() => _teacherhomeState();
+  _StudentHomeState createState() => _StudentHomeState();
 }
 
-class _teacherhomeState extends State<teacherhome> {
+class _StudentHomeState extends State<StudentHome> {
   int _tabBarIndex = 0;
 
   void _onTabTapped(int index) {
@@ -28,16 +29,15 @@ class _teacherhomeState extends State<teacherhome> {
     Navigator.pushNamed(context, 'login');
   }
 
-  final List<Widget> _tabs = [
-    homeT(),
-    TimeTestScreen(),
-    Project(),
-    Assessmente(),
-    Menu()
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final List<Widget> _tabs = [
+      Home(studentId: widget.studentId), // ให้ Home รับ studentId จาก widget.
+      TimeTestScreen(),
+      Status(),
+      Results(),
+      Menu(),
+    ];
     return DefaultTabController(
       length: _tabs.length,
       child: Scaffold(
@@ -77,13 +77,16 @@ class _teacherhomeState extends State<teacherhome> {
             tabs: [
               Tab(text: 'Home'),
               Tab(text: 'Test'),
-              Tab(text: 'Project'),
-              Tab(text: 'Assessmente'),
+              Tab(text: 'Result'),
+              Tab(text: 'Status'),
               Tab(text: 'Menu'),
             ],
           ),
         ),
-        body: _tabs[_tabBarIndex],
+        body: IndexedStack(
+          index: _tabBarIndex,
+          children: _tabs.map((tab) => tab).toList(),
+        ),
       ),
     );
   }

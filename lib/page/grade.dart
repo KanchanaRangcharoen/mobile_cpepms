@@ -8,17 +8,13 @@ class grade extends StatefulWidget {
 
 class _gradeState extends State<grade> {
   Future logout() async {
-    await User.setsignin(false);
+    await User.setSignIn(false);
     Navigator.pushNamed(context, 'login');
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('grade'),
-        backgroundColor: Colors.black,
-      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

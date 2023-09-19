@@ -1,25 +1,5 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-
-class ApiService {
-  final String baseUrl =
-      "http://172.16.3.169/cpepms/news.php"; // ใส่ URL ของไฟล์ PHP ที่เชื่อมต่อกับ MySQL
-
-  Future<List<dynamic>> getNewsData() async {
-    try {
-      final response = await http.get(Uri.parse("$baseUrl"));
-      if (response.statusCode == 200) {
-        List<dynamic> data = json.decode(utf8.decode(response.bodyBytes));
-        return data;
-      } else {
-        throw Exception("Failed to load data");
-      }
-    } catch (e) {
-      throw Exception("Error: $e");
-    }
-  }
-}
+import 'package:flutter_login/api_service.dart';
 
 class News extends StatefulWidget {
   @override
@@ -28,6 +8,7 @@ class News extends StatefulWidget {
 
 class _NewsState extends State<News> {
   List<dynamic> newsList = [];
+
   @override
   void initState() {
     super.initState();
@@ -50,31 +31,72 @@ class _NewsState extends State<News> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('News'),
+        title: Text('ข่าวสาร'),
         backgroundColor: Colors.black,
       ),
-      body: ListView.builder(
-        itemCount: newsList.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(
-                '${newsList[index]['news_id']}  ${newsList[index]['news_head']}'),
-            subtitle: Text(newsList[index]['news_text']),
-            trailing: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(newsList[index]['news_date']
-                    .toString()
-                    .substring(0, 10)), // แสดงวันที่ (2023-07-13)
-                Text(newsList[index]['news_date']
-                    .toString()
-                    .substring(11, 19)), // แสดงเวลา (15:22:31)
-                Text('${newsList[index]['year']} ${newsList[index]['term']}'),
-              ],
+      body: newsList.isEmpty
+          ? Center(
+              child: Text(
+                'ไม่มีข้อมูล',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.normal,
+                  color: Colors.black,
+                ),
+              ),
+            )
+          : Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: ListView.builder(
+                itemCount: newsList.length,
+                itemBuilder: (context, index) {
+                  return Card(
+                    elevation: 4, // เพิ่มเงาให้กับ Card
+                    margin: EdgeInsets.all(11), // ปรับขอบรอบ Card
+                    child: ListTile(
+                      title: Text(
+                        '${newsList[index]['news_head']}',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                          color: Colors.black, // เพิ่มสีให้กับ Text
+                        ),
+                      ),
+                      subtitle: Text(
+                        newsList[index]['news_text'],
+                        style: TextStyle(
+                          fontSize: 17,
+                          color: Colors.black87,
+                        ),
+                      ),
+                      trailing: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text(
+                            newsList[index]['news_date']
+                                .toString()
+                                .substring(0, 10),
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.black87,
+                            ),
+                          ),
+                          Text(
+                            newsList[index]['news_date']
+                                .toString()
+                                .substring(11, 19),
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.black87,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
             ),
-          );
-        },
-      ),
     );
   }
 }

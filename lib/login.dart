@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, non_constant_identifier_names
 
 import 'package:flutter/material.dart';
+import 'package:flutter_login/studenthome.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -19,35 +20,43 @@ class _loginState extends State<login> {
   TextEditingController pass = TextEditingController();
 
   Future<void> sign_in() async {
-    String url = "http://172.16.3.169/cpepms/login.php";
+    String url =
+        "http://172.16.3.164/cpepms/login.php"; // กำหนด URL ของเซิร์ฟเวอร์ที่รอรับ HTTP POST request เพื่อตรวจสอบการเข้าสู่ระบบ
 
-    try {
-      final response = await http.post(
-        Uri.parse(url),
-        headers: {
-          "Content-Type": "application/json"
-        }, // เพิ่ม header เพื่อระบุว่าคุณกำลังส่ง JSON
-        body: jsonEncode({
-          'username': email.text,
-          'password': pass.text,
-        }), // แปลงข้อมูลเป็น JSON
-      );
+    final response = await http.post(
+      Uri.parse(url),
+      headers: {
+        "Content-Type": "application/json"
+      }, // เพิ่ม header เพื่อระบุว่าคุณกำลังส่ง JSON
+      body: jsonEncode({
+        'username': email.text,
+        'password': pass.text,
+        'is_signed_in': (await User.getSignIn()) ?? false,
+      }), // โค้ดนี้สร้าง request body โดยแปลงข้อมูลบัญชีผู้ใช้ที่รับมา (email และ password) เป็น JSON และส่งไปใน request body เพื่อให้เซิร์ฟเวอร์ตรวจสอบ
+    );
 
-      if (response.statusCode == 200) {
-        var data = json.decode(response.body);
-        print(data);
+    if (response.statusCode == 200) {
+      var data = json.decode(response.body);
+      print(data);
 
-        if (data.containsKey("message") && data.containsKey("student_id")) {
+      if (data.containsKey("message")) {
+        if (data["message"] == "Student Success" &&
+            data.containsKey("student_id")) {
           // สำเร็จ: เข้าสู่ระบบนักเรียน
-          await User.setsignin(true);
-          Navigator.pushNamed(context, 'studenthome');
-        } else if (data.containsKey("message") &&
+          await User.setSignIn(true);
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => StudentHome(studentId: data['student_id']),
+            ),
+          ); // นำผู้ใช้ไปยังหน้านักเรียน
+        } else if (data["message"] == "Teacher Success" &&
             data.containsKey("teacher_id")) {
           // สำเร็จ: เข้าสู่ระบบครู
-          await User.setsignin(true);
-          Navigator.pushNamed(context, 'teacherhome');
+          await User.setSignIn(true);
+          Navigator.pushNamed(context, 'teacherhome'); // นำผู้ใช้ไปยังหน้าครู
         } else {
-          // ไม่สำเร็จ: แสดงข้อความผิดพลาดหรือดำเนินการอื่นๆ ตามที่คุณต้องการ
+          // ไม่สำเร็จหรือข้อความผิดพลาดอื่นๆ
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text("เข้าสู่ระบบไม่สำเร็จ"),
@@ -55,9 +64,17 @@ class _loginState extends State<login> {
             ),
           );
         }
+      } else {
+        // ไม่พบคีย์ "message" ใน JSON response
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("การตอบกลับจากเซิร์ฟเวอร์ไม่ถูกต้อง"),
+            backgroundColor: Colors.red,
+          ),
+        );
       }
-    } catch (e) {
-      print("Error: $e");
+    } else {
+      // ไม่สามารถติดต่อเซิร์ฟเวอร์ได้
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text("เกิดข้อผิดพลาดระหว่างเข้าสู่ระบบ"),

@@ -8,7 +8,7 @@ class Downlond extends StatefulWidget {
 
 class _DownlondState extends State<Downlond> {
   Future logout() async {
-    await User.setsignin(false);
+    await User.setSignIn(false);
     Navigator.pushNamed(context, 'login');
   }
 

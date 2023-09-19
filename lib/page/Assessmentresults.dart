@@ -8,17 +8,13 @@ class Results extends StatefulWidget {
 
 class _ResultsState extends State<Results> {
   Future logout() async {
-    await User.setsignin(false);
+    await User.setSignIn(false);
     Navigator.pushNamed(context, 'login');
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Results'),
-        backgroundColor: Colors.black,
-      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

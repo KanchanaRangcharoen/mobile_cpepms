@@ -1,13 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_login/download.dart';
 import 'package:flutter_login/rules.dart';
+import 'package:flutter_login/studenthome.dart';
 import 'package:flutter_login/teacherhome.dart';
-import 'package:flutter_login/studenthomehome.dart';
 import 'login.dart';
 import 'check_login.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => StudentIdProvider()),
+        // ตัวอย่างเพิ่ม provider อื่น ๆ ตามความจำเป็น
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -19,25 +28,27 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
         primarySwatch: Colors.blue,
       ),
       home: check_login(),
       routes: {
-        'studenthome': (context) => studenthome(),
+        'studenthome': (context) => StudentHome(
+              studentId: '',
+            ),
         'login': (context) => login(),
         'teacherhome': (context) => teacherhome(),
         'download': (context) => Downlond(),
         'rules': (context) => Rules(),
       },
     );
+  }
+}
+
+class StudentIdProvider extends ChangeNotifier {
+  String? studentId;
+
+  void setStudentId(String? id) {
+    studentId = id;
+    notifyListeners();
   }
 }

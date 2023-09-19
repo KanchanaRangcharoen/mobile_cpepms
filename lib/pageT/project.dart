@@ -13,47 +13,40 @@ class _ProjectState extends State<Project> {
     setState(() {
       currentIndex = index;
     });
-    final List<Widget> _pages = [];
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text('Project'),
-          backgroundColor: Colors.black,
-        ),
-        body: const SafeArea(
+    return const Scaffold(
+        body: SafeArea(
             child: Column(children: [
-          Padding(
-            padding: EdgeInsets.all(5.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                MyButton(
-                  iconImagePath: 'assets/img/score.png',
-                  buttonText: 'Score',
-                  nextPageRoute: 'score',
-                ),
-                MyButton(
-                  iconImagePath: 'assets/img/grade.png',
-                  buttonText: 'Grade',
-                  nextPageRoute: 'grade',
-                )
-              ],
+      Padding(
+        padding: EdgeInsets.all(5.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            MyButton(
+              iconImagePath: 'assets/img/score.png',
+              buttonText: 'Score',
+              nextPageRoute: 'score',
             ),
+            MyButton(
+              iconImagePath: 'assets/img/grade.png',
+              buttonText: 'Grade',
+              nextPageRoute: 'grade',
+            )
+          ],
+        ),
+      ),
+      Row(
+        children: [
+          Text(
+            'โครงงานที่รับเป็นที่ปรึกษา',
+            style: TextStyle(
+                fontSize: 21, fontWeight: FontWeight.bold, color: Colors.black),
           ),
-          Row(
-            children: [
-              Text(
-                'โครงงานที่รับเป็นที่ปรึกษา',
-                style: TextStyle(
-                    fontSize: 21,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black),
-              ),
-            ],
-          ),
-        ])));
+        ],
+      ),
+    ])));
   }
 }
