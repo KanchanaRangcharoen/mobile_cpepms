@@ -21,7 +21,7 @@ class _loginState extends State<login> {
 
   Future<void> sign_in() async {
     String url =
-        "http://172.16.3.164/cpepms/login.php"; // กำหนด URL ของเซิร์ฟเวอร์ที่รอรับ HTTP POST request เพื่อตรวจสอบการเข้าสู่ระบบ
+        "https://www.cpeproject.shop/flutterIN/login.php"; // กำหนด URL ของเซิร์ฟเวอร์ที่รอรับ HTTP POST request เพื่อตรวจสอบการเข้าสู่ระบบ
 
     final response = await http.post(
       Uri.parse(url),

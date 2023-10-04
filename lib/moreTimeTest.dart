@@ -35,7 +35,7 @@ class _MoreTestScreenState extends State<MoreTestScreen> {
   Future<void> fetchProject() async {
     try {
       final response = await http.post(
-        Uri.parse('http://172.16.3.164/cpepms/project.php'),
+        Uri.parse('https://www.cpeproject.shop/flutterIN/project.php'),
         body: {'project_id': widget.projectID},
       );
 
@@ -81,7 +81,7 @@ class _MoreTestScreenState extends State<MoreTestScreen> {
   Future<void> fetchStudent(var studentID, var projectID) async {
     try {
       final response2 = await http.post(
-        Uri.parse('http://172.16.3.164/cpepms/student.php'),
+        Uri.parse('https://www.cpeproject.shop/flutterIN/student.php'),
         body: {'student_id': studentID},
       );
 
@@ -113,7 +113,7 @@ class _MoreTestScreenState extends State<MoreTestScreen> {
   Future<void> fetchTeacher(var teacherID, var projectID) async {
     try {
       final response3 = await http.post(
-        Uri.parse('http://172.16.3.164/cpepms/teacher.php'),
+        Uri.parse('https://www.cpeproject.shop/flutterIN/teacher.php'),
         body: {'teacher_id': teacherID},
       );
 

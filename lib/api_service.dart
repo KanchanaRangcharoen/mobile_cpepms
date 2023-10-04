@@ -2,7 +2,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class ApiService {
-  final String baseUrl = "http://172.16.3.164/cpepms/"; // เพิ่ม URL หลักของ API
+  final String baseUrl =
+      "https://www.cpeproject.shop/flutterIN/"; // เพิ่ม URL หลักของ API
 
   Future<List<dynamic>> fetchData(String endpoint) async {
     final url =
@@ -36,5 +37,9 @@ class ApiService {
 
   Future<List<dynamic>> getDataTest() async {
     return fetchData("timeTest.php");
+  }
+
+  Future<List<dynamic>> getDocumentData() async {
+    return fetchData("regulation.php");
   }
 }

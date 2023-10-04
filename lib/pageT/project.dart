@@ -27,12 +27,12 @@ class _ProjectState extends State<Project> {
           children: [
             MyButton(
               iconImagePath: 'assets/img/score.png',
-              buttonText: 'Score',
+              buttonText: 'คะแนน',
               nextPageRoute: 'score',
             ),
             MyButton(
               iconImagePath: 'assets/img/grade.png',
-              buttonText: 'Grade',
+              buttonText: 'เกรด',
               nextPageRoute: 'grade',
             )
           ],

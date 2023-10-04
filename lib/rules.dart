@@ -20,7 +20,7 @@ class _RulesState extends State<Rules> {
   Future<void> fetchRulesData() async {
     ApiService apiService = ApiService();
     try {
-      List<dynamic> data = await apiService.getRulesData();
+      List<dynamic> data = await apiService.getDocumentData();
       setState(() {
         rulesList = data;
       });
@@ -80,7 +80,7 @@ class _RulesState extends State<Rules> {
                               );
                             },
                             child: Text(
-                              '${rulesList[index]['regulationFile_path']}',
+                              '${rulesList[index]['regulationFile_path'] ?? ''}', // ถ้า 'regulationFile_path' เป็น null ให้แสดง ' '
                               style: TextStyle(
                                 fontSize: 17,
                                 color: Colors.blue,

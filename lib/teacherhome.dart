@@ -2,8 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_login/page/menu.dart';
 import 'package:flutter_login/user.dart';
-import 'package:flutter_login/pageT/assessment.dart';
-import 'package:flutter_login/pageT/project.dart';
 import 'package:flutter_login/pageT/homeT.dart';
 import 'package:flutter_login/timeTest.dart';
 
@@ -28,13 +26,7 @@ class _teacherhomeState extends State<teacherhome> {
     Navigator.pushNamed(context, 'login');
   }
 
-  final List<Widget> _tabs = [
-    homeT(),
-    TimeTestScreen(),
-    Project(),
-    Assessmente(),
-    Menu()
-  ];
+  final List<Widget> _tabs = [homeT(), TimeTestScreen(), Menu()];
 
   @override
   Widget build(BuildContext context) {
@@ -75,11 +67,9 @@ class _teacherhomeState extends State<teacherhome> {
               color: Color.fromARGB(255, 255, 255, 255),
             ),
             tabs: [
-              Tab(text: 'Home'),
-              Tab(text: 'Test'),
-              Tab(text: 'Project'),
-              Tab(text: 'Assessmente'),
-              Tab(text: 'Menu'),
+              Tab(text: 'หน้าหลัก'),
+              Tab(text: 'เวลาสอบ'),
+              Tab(text: 'เมนู'),
             ],
           ),
         ),

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_login/page/menu.dart';
 import 'package:flutter_login/user.dart';
-import 'package:flutter_login/page/Assessmentresults.dart';
 import 'package:flutter_login/page/home.dart';
-import 'package:flutter_login/page/status.dart';
 import 'package:flutter_login/timeTest.dart';
 
 class StudentHome extends StatefulWidget {
@@ -34,8 +32,6 @@ class _StudentHomeState extends State<StudentHome> {
     final List<Widget> _tabs = [
       Home(studentId: widget.studentId), // ให้ Home รับ studentId จาก widget.
       TimeTestScreen(),
-      Status(),
-      Results(),
       Menu(),
     ];
     return DefaultTabController(
@@ -43,7 +39,7 @@ class _StudentHomeState extends State<StudentHome> {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.black,
-          title: Text(
+          title: const Text(
             'Project Manager App',
             style: TextStyle(
               fontSize: 21,
@@ -57,29 +53,27 @@ class _StudentHomeState extends State<StudentHome> {
               onPressed: () {
                 // showSearch(context: context, delegate: CustomSearch());
               },
-              color: Color.fromARGB(255, 74, 147, 231),
+              color: const Color.fromARGB(255, 74, 147, 231),
               iconSize: 30,
-              icon: Icon(Icons.search),
+              icon: const Icon(Icons.search),
             ),
           ],
           bottom: TabBar(
             onTap: _onTabTapped,
-            unselectedLabelColor: Color.fromARGB(255, 74, 147, 231),
+            unselectedLabelColor: const Color.fromARGB(255, 74, 147, 231),
             indicatorSize: TabBarIndicatorSize.tab,
             indicator: BoxDecoration(
-              gradient: LinearGradient(colors: [
+              gradient: const LinearGradient(colors: [
                 Color.fromARGB(255, 74, 147, 231),
                 Color.fromARGB(255, 174, 124, 255),
               ]),
               borderRadius: BorderRadius.circular(40),
-              color: Color.fromARGB(255, 255, 255, 255),
+              color: const Color.fromARGB(255, 255, 255, 255),
             ),
-            tabs: [
-              Tab(text: 'Home'),
-              Tab(text: 'Test'),
-              Tab(text: 'Result'),
-              Tab(text: 'Status'),
-              Tab(text: 'Menu'),
+            tabs: const [
+              Tab(text: 'หน้าหลัก'),
+              Tab(text: 'เวลาสอบ'),
+              Tab(text: 'เมนู'),
             ],
           ),
         ),

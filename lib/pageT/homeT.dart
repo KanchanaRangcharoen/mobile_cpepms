@@ -1,12 +1,9 @@
-// ignore_for_file: unused_field
-
 import 'package:flutter/material.dart';
-import 'package:flutter_login/download.dart';
 import 'package:flutter_login/pageT/My_button.dart';
 import 'package:flutter_login/news.dart';
 import 'package:flutter_login/pageT/appoint.dart';
-import 'package:flutter_login/rules.dart';
 import 'package:flutter_login/api_service.dart';
+import 'package:intl/intl.dart';
 
 class homeT extends StatefulWidget {
   @override
@@ -35,19 +32,17 @@ class _homeTState extends State<homeT> {
     }
   }
 
-  void goToPade(int index) {
+  void goToPage(int index) {
     setState(() {
       currentIndex = index;
     });
-    // เช่น หาก index เป็น 0 ก็ Navigate ไปยังหน้า News()
+
     if (index == 0) {
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => News()),
       );
-    }
-    // เช่น หาก index เป็น 1 ก็ Navigate ไปยังหน้า Appoint()
-    else if (index == 1) {
+    } else if (index == 1) {
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => Appoint()),
@@ -55,7 +50,6 @@ class _homeTState extends State<homeT> {
     }
   }
 
-  final List<Widget> _pages = [Downlond(), Rules()];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,12 +64,12 @@ class _homeTState extends State<homeT> {
                 children: [
                   MyButton(
                     iconImagePath: 'assets/img/filedownlond.png',
-                    buttonText: 'Download',
+                    buttonText: 'ดาวน์โหลด',
                     nextPageRoute: 'download',
                   ),
                   MyButton(
                     iconImagePath: 'assets/img/rules.png',
-                    buttonText: 'Rules',
+                    buttonText: 'กฎข้อบังคับ',
                     nextPageRoute: 'rules',
                   )
                 ],
@@ -104,19 +98,19 @@ class _homeTState extends State<homeT> {
         selectedItemColor: Colors.white,
         unselectedItemColor: Colors.white,
         currentIndex: currentIndex,
-        onTap: goToPade,
+        onTap: goToPage,
         items: const [
           BottomNavigationBarItem(
             icon: Icon(
               Icons.newspaper,
             ),
-            label: 'News',
+            label: 'ข่าวสาร',
           ),
           BottomNavigationBarItem(
             icon: Icon(
               Icons.calendar_month,
             ),
-            label: 'Appoint',
+            label: 'กำหนดการ',
           ),
         ],
       ),
@@ -140,6 +134,11 @@ class _homeTState extends State<homeT> {
     return ListView.builder(
       itemCount: appointT.length,
       itemBuilder: (context, index) {
+        final dateString = appointT[index]['appoint_date'];
+        final appointmentDate = DateTime.parse(dateString);
+        final formattedDate =
+            DateFormat('dd-MM-yyyy HH:mm').format(appointmentDate);
+
         return Card(
           elevation: 4,
           margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
@@ -151,26 +150,40 @@ class _homeTState extends State<homeT> {
                 fontSize: 18,
               ),
             ),
-            subtitle: Text(
-              '${appointT[index]['description']}',
-              style: const TextStyle(
-                fontSize: 16,
-                color: Colors.black,
-                fontWeight: FontWeight.w400,
-              ),
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '${appointT[index]['description']}',
+                  style: const TextStyle(
+                    fontSize: 16,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+                Text(
+                  'กลุ่มเรียน: ${appointT[index]['group_id'] ?? 'ทุกกลุ่มเรียน'}',
+                  style: const TextStyle(
+                    fontSize: 16,
+                    color: Colors.black87,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ],
             ),
             trailing: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Text(
-                  appointT[index]['appoint_date'].toString().substring(0, 10),
-                  style: const TextStyle(
-                    fontSize: 15,
+                const Text(
+                  'วันเวลาที่สิ้นสุด',
+                  style: TextStyle(
+                    fontSize: 16,
                     color: Colors.black87,
+                    fontWeight: FontWeight.w400,
                   ),
                 ),
                 Text(
-                  appointT[index]['appoint_date'].toString().substring(11, 19),
+                  formattedDate,
                   style: const TextStyle(
                     fontSize: 15,
                     color: Colors.black87,
