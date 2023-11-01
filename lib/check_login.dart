@@ -16,7 +16,7 @@ class _check_loginState extends State<check_login> {
       //หากผู้ใช้ไม่ได้เข้าสู่ระบบ
       Navigator.pushNamed(context, 'login');
     } else {
-      Navigator.pushNamed(context, 'studenthome');
+      Navigator.pushNamed(context, 'login');
     }
   }
 

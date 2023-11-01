@@ -120,10 +120,10 @@ class _MoreTestScreenState extends State<MoreTestScreen> {
       if (response3.statusCode == 200) {
         final jsonData3 = json.decode(response3.body);
 
-        // สร้างรายการของนักเรียนตัวเอง
+        // สร้างรายการของอาจารย์ตัวเอง
         List<dynamic> teacherDataList = jsonData3;
 
-        // เก็บรายการของนักเรียนในแต่ละโปรเจค
+        // เก็บรายการของอาจารย์ในแต่ละโปรเจค
         setState(() {
           if (teacherLists.containsKey(projectID)) {
             teacherLists[projectID]!.addAll(teacherDataList);
@@ -230,14 +230,22 @@ class _MoreTestScreenState extends State<MoreTestScreen> {
 
   String giveTeacherPosition(String position) {
     switch (position) {
+      case "ศาสตราจารย์":
+        return "ศ.";
+      case "ศาสตราจารย์ ดร.":
+        return "ศ.ดร.";
       case "รองศาสตราจารย์":
         return "รศ.";
+      case "รองศาสตราจารย์ ดร.":
+        return "รศ.ดร.";
       case "ผู้ช่วยศาสตราจารย์":
         return "ผศ.";
       case "ผู้ช่วยศาสตราจารย์ ดร.":
         return "ผศ.ดร.";
       case "อาจารย์":
         return "อ.";
+      case "อาจารย์ ดร.":
+        return "อ.ดร.";
       case "ดร.":
         return "ดร.";
       default:

@@ -73,7 +73,7 @@ class _DownlondState extends State<Downlond> {
                               );
                             },
                             child: Text(
-                              '${document[index]['document_path'] ?? ''}', // ถ้า 'regulationFile_path' เป็น null ให้แสดง ' '
+                              '${document[index]['document_path'] ?? ''}', // ถ้า 'document_path' เป็น null ให้แสดง ' '
                               style: const TextStyle(
                                 fontSize: 17,
                                 color: Colors.blue,

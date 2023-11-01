@@ -160,8 +160,8 @@ class _HomeState extends State<Home> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.black,
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.white,
+        selectedItemColor: Color.fromARGB(255, 74, 147, 231),
+        unselectedItemColor: Color.fromARGB(255, 74, 147, 231),
         currentIndex: currentIndex,
         onTap: goToPage,
         items: const [

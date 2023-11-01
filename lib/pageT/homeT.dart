@@ -6,6 +6,9 @@ import 'package:flutter_login/api_service.dart';
 import 'package:intl/intl.dart';
 
 class homeT extends StatefulWidget {
+  final String? teacherId;
+
+  homeT({this.teacherId});
   @override
   State<homeT> createState() => _homeTState();
 }
@@ -95,8 +98,8 @@ class _homeTState extends State<homeT> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.black,
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.white,
+        selectedItemColor: Color.fromARGB(255, 74, 147, 231),
+        unselectedItemColor: Color.fromARGB(255, 74, 147, 231),
         currentIndex: currentIndex,
         onTap: goToPage,
         items: const [
